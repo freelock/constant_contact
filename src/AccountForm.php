@@ -90,12 +90,14 @@ class AccountForm extends EntityForm {
     $status = $entity->save();
 
     if ($status == SAVED_UPDATED) {
-      drupal_set_message(t('%label account has been updated.', ['%label' => $entity->label()]));
+      $this->messenger()->addStatus(t('%label account has been updated.', ['%label' => $entity->label()]));
     }
     else {
-      drupal_set_message(t('%label account has been created.', ['%label' => $entity->label()]));
+      $this->messenger()->addStatus(t('%label account has been created.', ['%label' => $entity->label()]));
     }
-    $form_state->setRedirectUrl($this->entity->urlInfo('collection'));
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Please confirm that `entity` is an instance of `Drupal\Core\Entity\EntityInterface`. Only the method name and not the class name was checked for this replacement, so this may be a false positive.
+    $form_state->setRedirectUrl($this->entity->toUrl('collection'));
   }
 
   /**

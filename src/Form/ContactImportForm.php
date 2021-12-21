@@ -178,7 +178,7 @@ class ContactImportForm extends FormBase{
 //    \Drupal::cache(ConstantContactManager::CC_CACHE_BIN)->delete('constant_contact:contacts:' . $this->account->id());
     \Drupal::cache(ConstantContactManager::CC_CACHE_BIN)->deleteAll();
 
-    drupal_set_message($message);
+    $this->messenger()->addStatus($message);
 
     $this->standardCancel($form, $form_state);
   }

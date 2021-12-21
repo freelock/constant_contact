@@ -5,12 +5,12 @@ services:
       - { name: paramconverter }
   constant_contact.manager:
     class: Drupal\constant_contact\ConstantContactManager
-    arguments: ['@config.factory', '@entity.manager', '@database', '@string_translation']
+    arguments: ['@config.factory', '@entity_type.manager', '@database', '@string_translation']
     tags:
       - { name: backend_overridable }
   constant_contact.contact.manager:
       class: Drupal\constant_contact\CCContactManager
-      arguments: ['@config.factory', '@entity.manager', '@database', '@string_translation']
+      arguments: ['@config.factory', '@entity_type.manager', '@database', '@string_translation']
       tags:
         - { name: backend_overridable }
   cache.constant_contact:

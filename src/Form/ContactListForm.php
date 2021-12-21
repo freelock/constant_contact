@@ -85,7 +85,7 @@ class ContactListForm extends FormBase {
     ];
 
     // Disable in edit mode.
-    $created_date = !empty($list) ? strtotime($list->created_date) : REQUEST_TIME;
+    $created_date = !empty($list) ? strtotime($list->created_date) : \Drupal::time()->getRequestTime();
     $form['created_date'] = array(
       '#type' => 'datetime',
       '#title' => $this->t('Created date'),
@@ -120,7 +120,7 @@ class ContactListForm extends FormBase {
       $this->constantContactManager->getContactList($this->account, $this->listid) :
       new ContactList();
 
-    $now = date(DATE_ISO8601, REQUEST_TIME);
+    $now = date(DATE_ISO8601, \Drupal::time()->getRequestTime());
 
     // new list
     if (!$this->listid) {
@@ -160,7 +160,7 @@ class ContactListForm extends FormBase {
     else {
       $message = $this->t('Contact list operation failed.');
     }
-    drupal_set_message($message);
+    $this->messenger()->addStatus($message);
 
     $form_state->setRedirect('constant_contact.contact_list.collection', ['constant_contact_account' => $this->account->id()]);
   }

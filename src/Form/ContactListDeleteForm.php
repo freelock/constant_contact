@@ -82,7 +82,7 @@ class ContactListDeleteForm extends ConfirmFormBase {
       '%label' => $this->list->name,
       '%user' => \Drupal::currentUser()->getAccountName(),
     ]);
-    drupal_set_message($this->t('The Contact list %name has been deleted.', array('%name' => $this->list->name)));
+    $this->messenger()->addStatus($this->t('The Contact list %name has been deleted.', array('%name' => $this->list->name)));
 
     $form_state->setRedirect('constant_contact.contact_list.collection', ['constant_contact_account' => $this->account->id()]);
   }

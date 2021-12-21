@@ -3,6 +3,7 @@
 namespace Drupal\constant_contact\Form;
 
 use Drupal\Core\Entity\EntityDeleteForm;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -13,11 +14,11 @@ use Drupal\Core\Form\FormStateInterface;
 class AccountDeleteForm extends EntityDeleteForm {
 
   /**
-   * The query factory to create entity queries.
+   * The EntityTypeManager
    *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
+   * @var EntityTypeManagerInterface
    */
-  protected $queryFactory;
+  protected $entityTypeManager;
 
   /**
    * Constructs a new AccountDeleteForm object.
@@ -25,8 +26,8 @@ class AccountDeleteForm extends EntityDeleteForm {
    * @param \Drupal\Core\Entity\Query\QueryFactory $query_factory
    *    The entity query object.
    */
-  public function __construct(QueryFactory $query_factory) {
-    $this->queryFactory = $query_factory;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -34,7 +35,7 @@ class AccountDeleteForm extends EntityDeleteForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.query')
+      $container->get('entity_type.manager')
     );
   }
 
@@ -42,7 +43,7 @@ class AccountDeleteForm extends EntityDeleteForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-//    $num_profiles = $this->queryFactory->get('profile')
+//    $num_profiles = $this->entityTypeManager->getStorage('profile')->getQuery()
 //      ->condition('type', $this->entity->id())
 //      ->count()
 //      ->execute();

@@ -157,7 +157,7 @@ class ContactExportForm extends FormBase {
       $message = $this->t('Export activity operation failed.');
     }
 
-    drupal_set_message($message);
+    $this->messenger()->addStatus($message);
 
     $this->standardCancel($form, $form_state);
   }

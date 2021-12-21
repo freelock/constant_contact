@@ -17,6 +17,7 @@ use Ctct\Components\Activities\ExportContacts;
 use Ctct\Components\Activities\AddContacts;
 use Ctct\Components\Contacts\EmailAddress;
 use Drupal\constant_contact\AccountInterface as CCAccountInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface as UserAccountInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
@@ -41,9 +42,9 @@ class CCContactManager implements CCContactManagerInterface {
   /**
    * Entity manager service
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 
   /**
    * Database connection
@@ -62,16 +63,16 @@ class CCContactManager implements CCContactManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity manager service.
    * @param \Drupal\Core\Database\Connection $connection
    *   The current database connection.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The translation manager service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityManagerInterface $entity_manager, Connection $connection) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, Connection $connection) {
     $this->configFactory = $config_factory;
-    $this->entityManager = $entity_manager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->connection = $connection;
   }
 
@@ -115,7 +116,7 @@ class CCContactManager implements CCContactManagerInterface {
    * @inheritdoc
    */
   public function createContact(UserAccountInterface $account, array $values) {
-    $now = date(DATE_ISO8601, REQUEST_TIME);
+    $now = date(DATE_ISO8601, \Drupal::time()->getRequestTime());
 
     $response = $this->isContact($account->getEmail());
     if (empty($response->results)) {
@@ -201,7 +202,7 @@ class CCContactManager implements CCContactManagerInterface {
       $message = t('Contact operation failed.');
     }
 
-    drupal_set_message($message);
+    \Drupal::messenger()->addStatus($message);
 
     return $returnContact;
   }
@@ -218,7 +219,7 @@ class CCContactManager implements CCContactManagerInterface {
     return [
       'email_address' => $email,
       'opt_in_source' =>  $current_user->getEmail() == $email ? 'ACTION_BY_VISITOR' : 'ACTION_BY_OWNER',
-      'opt_in_date' => date(DATE_ISO8601, REQUEST_TIME),
+      'opt_in_date' => date(DATE_ISO8601, \Drupal::time()->getRequestTime()),
     ];
   }
 

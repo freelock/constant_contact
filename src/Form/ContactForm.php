@@ -120,7 +120,7 @@ class ContactForm extends FormBase {
     ];
 
     // disabled in edit mode.
-    $created_date = !empty($contact) ? strtotime($contact->created_date) : REQUEST_TIME;
+    $created_date = !empty($contact) ? strtotime($contact->created_date) : \Drupal::time()->getRequestTime();
     $form['created_date'] = array(
       '#type' => 'datetime',
       '#title' => $this->t('Created date'),
@@ -155,7 +155,7 @@ class ContactForm extends FormBase {
       $this->constantContactManager->getContact($this->account, $this->id) :
       new Contact();
 
-    $now = date(DATE_ISO8601, REQUEST_TIME);
+    $now = date(DATE_ISO8601, \Drupal::time()->getRequestTime());
     // new contact.
     if (!$this->id) {
       $contact->created_date = $now;
@@ -217,7 +217,7 @@ class ContactForm extends FormBase {
     else {
       $message = $this->t('Contact operation failed.');
     }
-    drupal_set_message($message);
+    $this->messenger()->addStatus($message);
 
     $form_state->setRedirect('constant_contact.contacts.collection', ['constant_contact_account' => $this->account->id()]);
   }

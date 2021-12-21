@@ -150,7 +150,7 @@ class AccountInfoForm extends FormBase {
     else {
       $message = $this->t('Update account failed for %label.', ['%label' => $this->account->label()]);
     }
-    drupal_set_message($message);
+    $this->messenger()->addStatus($message);
 
     $form_state->setRedirect('constant_contact.account.manage', ['constant_contact_account' => $this->account->id()]);
   }

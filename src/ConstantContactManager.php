@@ -11,6 +11,7 @@ use Drupal\constant_contact\AccountInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Entity\FieldableEntityInterface;
@@ -36,9 +37,9 @@ class ConstantContactManager implements ConstantContactManagerInterface {
   /**
    * Entity manager service
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 
   /**
    * Database connection
@@ -57,16 +58,16 @@ class ConstantContactManager implements ConstantContactManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity manager service.
    * @param \Drupal\Core\Database\Connection $connection
    *   The current database connection.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The translation manager service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityManagerInterface $entity_manager, Connection $connection) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, Connection $connection) {
     $this->configFactory = $config_factory;
-    $this->entityManager = $entity_manager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->connection = $connection;
   }
 
@@ -94,7 +95,7 @@ class ConstantContactManager implements ConstantContactManagerInterface {
       }
 
       if ($data instanceof AccountInfo) {
-        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, REQUEST_TIME + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
+        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, \Drupal::time()->getRequestTime() + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
       }
     }
     return $data;
@@ -121,7 +122,7 @@ class ConstantContactManager implements ConstantContactManagerInterface {
       }
 
       if ($data instanceof AccountInfo) {
-        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, REQUEST_TIME + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
+        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, \Drupal::time()->getRequestTime() + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
       }
     }
     return $data;
@@ -164,7 +165,7 @@ class ConstantContactManager implements ConstantContactManagerInterface {
       }
 
       if ($data[0] instanceof Activity) {
-        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, REQUEST_TIME + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
+        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, \Drupal::time()->getRequestTime() + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
       }
     }
     return $data;
@@ -210,7 +211,7 @@ class ConstantContactManager implements ConstantContactManagerInterface {
       }
 
       if ($data[0] instanceof ContactList) {
-        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, REQUEST_TIME + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
+        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, \Drupal::time()->getRequestTime() + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
       }
     }
     return $data;
@@ -292,7 +293,7 @@ class ConstantContactManager implements ConstantContactManagerInterface {
       }
 
       if ($data[0] instanceof Contact) {
-        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, REQUEST_TIME + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
+        \Drupal::cache(self::CC_CACHE_BIN)->set($cid, $data, \Drupal::time()->getRequestTime() + $this->configFactory->get('constant_contact.settings')->get('cc_cache_expire_default'));
       }
     }
     return $data;

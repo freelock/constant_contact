@@ -51,7 +51,9 @@ class AccountListBuilder extends ConfigEntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     $row['api_key'] = $entity->getApiKey();
-    $row['label'] = $entity->link();
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Please confirm that `$entity` is an instance of `\Drupal\Core\Entity\EntityInterface`. Only the method name and not the class name was checked for this replacement, so this may be a false positive.
+    $row['label'] = $entity->toLink()->toString();
     $row['secret'] = $entity->getSecret();
     $row['access_token'] = $entity->getAccessToken();
 
@@ -111,6 +113,6 @@ class AccountListBuilder extends ConfigEntityListBuilder {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    drupal_set_message($this->t('The Constant Contact account ordering has been saved.'));
+    $this->messenger()->addStatus($this->t('The Constant Contact account ordering has been saved.'));
   }
 }

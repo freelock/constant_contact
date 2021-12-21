@@ -78,7 +78,7 @@ class ContactRemoveForm extends ConfirmFormBase {
       '%label' => $this->contact->email_addresses[0]->email_address,
       '%user' => \Drupal::currentUser()->getAccountName(),
     ]);
-    drupal_set_message($this->t('Contact: %name has been removed from all lists.', ['%name' => $this->contact->email_addresses[0]->email_address]));
+    $this->messenger()->addStatus($this->t('Contact: %name has been removed from all lists.', ['%name' => $this->contact->email_addresses[0]->email_address]));
 
     $form_state->setRedirect('constant_contact.contacts.collection', ['constant_contact_account' => $this->account->id()]);
   }

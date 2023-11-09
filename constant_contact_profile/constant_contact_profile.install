@@ -13,6 +13,7 @@ use Drupal\field\Entity\FieldConfig;
 function constant_contact_profile_install() {
   // Do field mappings.
   $ids = \Drupal::entityQuery('field_config')
+    ->accessCheck(FALSE)
     ->condition('id', "profile.main.", 'STARTS_WITH')
     ->execute();
   // Fetch all main profile fields.

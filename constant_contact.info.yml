@@ -2,7 +2,7 @@ name: Constant Contact
 type: module
 description: Provides integration with Constant Contact API.
 package: Web services
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 dependencies:
-  - address
-  - profile
+  - address:address
+  - profile:profile

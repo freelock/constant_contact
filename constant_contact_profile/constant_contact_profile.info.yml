@@ -1,7 +1,7 @@
 name: Constant Contact Profile
 type: module
 description: Contact profile for Constant Contact integration
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 package: Web services
 dependencies:
-  - constant_contact
+  - constant_contact:constant_contact
